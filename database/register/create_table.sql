@@ -13,17 +13,24 @@ CREATE TABLE positions (
 );
 
 
--- Tabel for User Register
-CREATE TABLE user (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
-    position_id INT NOT NULL,
-    division_id INT NOT NULL,
-    phone int unique not null,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    created_at DATE NOT NULL,
-    status ENUM('active', 'inactive') DEFAULT 'active',
-    FOREIGN KEY (position_id) REFERENCES positions(id) ON DELETE CASCADE,
-    FOREIGN KEY (division_id) REFERENCES divisions(id) ON DELETE CASCADE
-);
+-- management.`users` definition
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `phone` int(11) NOT NULL,
+  `created_at` date NOT NULL,
+  `status` enum('active','inactive') DEFAULT 'active',
+  `position_id` int(11) NOT NULL,
+  `division_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `phone` (`phone`),
+  UNIQUE KEY `email` (`email`),
+  KEY `position_id` (`position_id`),
+  KEY `division_id` (`division_id`),
+  CONSTRAINT `user_ibfk_1` FOREIGN KEY (`position_id`) REFERENCES `positions` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `user_ibfk_2` FOREIGN KEY (`division_id`) REFERENCES `divisions` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
