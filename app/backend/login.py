@@ -5,8 +5,7 @@ from werkzeug.security import check_password_hash
 from app.models import db, Users
 
 login = Blueprint('login', __name__, template_folder='../app/frontend/login')
-login_manager = LoginManager()
-login_manager.init_app(login)
+
 
 @login.route('/login', methods=['GET', 'POST'])
 def show():
@@ -25,4 +24,4 @@ def show():
         else:
             return redirect(url_for('login.show') + '?error=user-not-found')
     else:
-        return render_template('login.html')
+        return render_template('login/login.html')
