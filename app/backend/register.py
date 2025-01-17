@@ -3,7 +3,9 @@ import sqlalchemy
 from werkzeug.security import generate_password_hash
 from app.models import db, Users
 
-register = Blueprint('register', __name__, template_folder='../app/frontend/register')
+register = Blueprint('register', __name__, 
+                     static_folder='../app/frontend/register', 
+                     template_folder='../app/frontend/register')
 
 @register.route('/register', methods=['GET', 'POST'])
 def show():
@@ -13,6 +15,7 @@ def show():
         password = request.form['password']
         confirm_password = request.form['confirm-password']
 
+        # Validate if the fields are provided
         if username and email and password and confirm_password:
             if password == confirm_password:
                 hashed_password = generate_password_hash(password, method='sha256')
@@ -20,7 +23,7 @@ def show():
                     new_user = Users(
                         username=username,
                         email=email,
-                        password_hash=hashed_password,  # Sesuaikan atribut di model
+                        password_hash=hashed_password,  # Ensure this matches the model's attribute
                     )
                     db.session.add(new_user)
                     db.session.commit()

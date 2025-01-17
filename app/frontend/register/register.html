@@ -1,21 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}">
 </head>
-
 <body>
-    <form method="POST" action="/register">
-        <input type="text" name="username" class="form-control" placeholder="Username">
-        <input type="text" name="email" class="form-control" placeholder="E-Mail">
-        <input type="password" name="password" class="form-control" placeholder="Password">
-        <input type="password" name="confirm-password" class="form-control" placeholder="Confirm Password">
+    <h2>Register</h2>
+
+    <form method="POST" action="{{ url_for('register.show') }}">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="text" name="phone" id="phone" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" required>
+        </div>
+
+        <div class="form-group">
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" name="confirm-password" id="confirm-password" required>
+        </div>
+
+        <div class="form-group">
+            <label for="position_id">Position</label>
+            <select name="position_id" id="position_id" required>
+                {% for position in positions %}
+                    <option value="{{ position.name }}">{{ position.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="division_id">Division</label>
+            <select name="division_id" id="division_id" required>
+                {% for division in divisions %}
+                    <option value="{{ division.name }}">{{ division.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select name="status" id="status" required>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn-submit">Register</button>
         <p>Already Registered? <a href="/login"> Click Here</a></p>
-        <button type="submit">Register</button>
+
+
+        {% if request.args.get('error') %}
+            <p class="error-message">Error: {{ request.args.get('error') }}</p>
+        {% endif %}
+        {% if request.args.get('success') %}
+            <p class="success-message">{{ request.args.get('success') }}</p>
+        {% endif %}
     </form>
 </body>
-
 </html>
