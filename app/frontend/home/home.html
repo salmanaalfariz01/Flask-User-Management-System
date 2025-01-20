@@ -1,14 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
 </head>
 <body>
-    {% if session.get('username') %}
-        <h1>Welcome, {{ session['username'] }}!</h1>
+    {% if session.get('user_id') %}
+        <h1>Welcome, {{ session['user_id'] }}!</h1>
     {% else %}
         <h1>Welcome, Guest!</h1>
     {% endif %}
     <a href="{{ url_for('logout.show') }}">Logout</a>
+
+    <!-- Script untuk memantau sesi kedaluwarsa -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Ambil waktu kedaluwarsa dari session
+            const sessionExpiry = "{{ session.get('session_expiry') }}";
+            
+            if (sessionExpiry) {
+                const expiryDate = new Date(sessionExpiry);
+                const now = new Date();
+
+                const timeRemaining = expiryDate - now;
+
+                if (timeRemaining > 0) {
+
+                    // Logout dan redirect setelah sesi habis
+                    setTimeout(() => {
+                        alert("Sesi Anda telah habis. Anda akan logout sekarang.");
+                        window.location.href = "{{ url_for('logout.show') }}";  // Logout dan redirect
+                    }, timeRemaining);
+                }
+            }
+        });
+    </script>
 </body>
 </html>

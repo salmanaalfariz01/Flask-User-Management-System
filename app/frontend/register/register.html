@@ -16,20 +16,18 @@
         <input type="password" name="confirm-password" placeholder="Confirm Password" required>
 
         <!-- Dropdown Divisions -->
-        <label for="division">Divisi:</label>
+        <label for="division">Division:</label>
         <select id="division" name="division_id" required>
-            <option value="">Pilih Divisi</option>
+            <option value="">Select Division</option>
             {% for division in divisions %}
             <option value="{{ division.id }}">{{ division.name }}</option>
             {% endfor %}
         </select>
     
-        <label for="position">Posisi:</label>
+        <label for="position">Position:</label>
         <select id="position" name="position_id" required>
-            <option value="">Pilih Posisi</option>
-            <!-- Opsi posisi akan diperbarui melalui JavaScript -->
+            <option value="">Select Position</option>
         </select>
-    
 
         <button type="submit">Register</button>
     </form>
@@ -40,22 +38,26 @@
     {% if request.args.get('success') %}
     <p class="success">{{ request.args.get('success') }}</p>
     {% endif %}
+
+    <!-- Link for users who already have an account -->
+    <p>Already have an account? <a href="{{ url_for('login.show') }}">Login here</a></p>
+
 </body>
 <script>
-    // Event listener untuk dropdown divisi
+    // JavaScript to load positions based on division
     document.getElementById('division').addEventListener('change', function () {
         const divisionId = this.value;
         const positionDropdown = document.getElementById('position');
 
-        // Kosongkan opsi posisi sebelumnya
-        positionDropdown.innerHTML = '<option value="">Pilih Posisi</option>';
+        // Clear previous position options
+        positionDropdown.innerHTML = '<option value="">Select Position</option>';
 
         if (divisionId) {
-            // Kirim permintaan ke server untuk mendapatkan posisi
+            // Send request to server to get positions
             fetch(`/positions/${divisionId}`)
                 .then(response => response.json())
                 .then(data => {
-                    // Tambahkan opsi posisi yang diterima dari server
+                    // Add position options received from the server
                     data.positions.forEach(position => {
                         const option = document.createElement('option');
                         option.value = position.id;

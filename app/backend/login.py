@@ -1,33 +1,43 @@
 from datetime import datetime, timedelta
-from flask import Blueprint, url_for, render_template, redirect, request, session, make_response
+from flask import Blueprint, render_template, redirect, request, session, url_for
 from flask_login import login_user
 from werkzeug.security import check_password_hash
 from app.models import Users
 
-login = Blueprint('login',
-                  __name__,
-                  template_folder='../frontend/login',
+login = Blueprint('login', 
+                  __name__, 
+                  template_folder='../frontend/login', 
                   static_folder='../frontend/login')
 
 @login.route('/login', methods=['GET', 'POST'])
 def show():
     if request.method == 'POST':
-        username = request.form['username']
+        login_value = request.form['username']  # Can be username, phone, or email
         password = request.form['password']
 
-        user = Users.query.filter_by(username=username).first()
+        # Check if the login value is an email or phone number and adjust the query accordingly
+        user = None
+        if "@" in login_value:  # Email login
+            user = Users.query.filter_by(email=login_value).first()
+        elif login_value.isdigit():  # Phone number login (assuming numeric values only)
+            user = Users.query.filter_by(phone=login_value).first()
+        else:  # Username login
+            user = Users.query.filter_by(username=login_value).first()
 
         if user and check_password_hash(user.password_hash, password):
-            # Set sesi menjadi permanent
+            # Set session as permanent
             session['user_id'] = user.id
             session.permanent = True
 
-            # Waktu kedaluwarsa sesi
-            session_expiry = datetime.now() + timedelta(minutes=30)
+            # Set session expiry time
+            session_expiry = datetime.now() + timedelta(minutes=180 )
+            session['session_expiry'] = session_expiry.strftime('%Y-%m-%d %H:%M:%S')
 
-            # Mencetak waktu sesi aktif dan waktu kedaluwarsa
-            print(f"Session started at: {datetime.now()}")  # Waktu saat sesi dimulai
-            print(f"Session expires at: {session_expiry}")  # Waktu kedaluwarsa sesi
+            # Log session start and expiry times for debugging
+            #print(f"Session started at: {datetime.now()}")
+            #print(f"Session expires at: {session_expiry}")
+            #print(f"Session data: {session}")  # Print entire session
+            #print(f"Cookies: {request.cookies}")  # Print cookies
 
             login_user(user)
             return redirect(url_for('home.show'))

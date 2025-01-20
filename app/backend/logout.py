@@ -17,8 +17,8 @@ def show():
     response.delete_cookie('username')
     return response
 
-@logout.route('/logout')
-def perform_logout():
-    logout_user()
-    flash('Anda telah logout.', 'success')
-    return redirect(url_for('login.show'))
+@logout.route('/logout', endpoint='logout')  # Menetapkan nama endpoint 'logout'
+def show():
+    logout_user()  # Logout user
+    session.clear()  # Clear session data
+    return redirect(url_for('login.show'))  # Redirect ke halaman login

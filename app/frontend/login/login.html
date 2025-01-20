@@ -17,23 +17,23 @@
             <!-- Error Message -->
             {% if request.args.get('error') == 'incorrect-password' %}
                 <div class="alert alert-danger" role="alert">
-                    Password salah. Silakan coba lagi.
+                    Incorrect password. Please try again.
                 </div>
             {% elif request.args.get('error') == 'user-not-found' %}
                 <div class="alert alert-danger" role="alert">
-                    Pengguna tidak ditemukan. Silakan daftar.
+                    User not found. Please register.
                 </div>
             {% endif %}
 
             <!-- Login Form -->
             <form method="POST" action="/login">
                 <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Masukkan username" required>
+                    <label for="username" class="form-label">Username/Phone/Email</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="username/phone/email" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan password" required autocomplete="off">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="password" required autocomplete="off">
                 </div>
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary">Login</button>
@@ -42,41 +42,11 @@
 
             <!-- Link to Register -->
             <p class="mt-3 text-center">
-                Belum punya akun? <a href="/register" class="text-decoration-none">Daftar di sini</a>
+                Don't have an account? <a href="/register" class="text-decoration-none">Register here</a>
             </p>
         </div>
     </div>
 
-    <!-- Alert untuk Kedaluwarsa Sesi -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Ambil waktu kedaluwarsa dari cookie
-            const sessionExpiry = document.cookie
-                .split("; ")
-                .find((row) => row.startsWith("session_expiry="))
-                ?.split("=")[1];
-
-            if (sessionExpiry) {
-                const expiryDate = new Date(sessionExpiry);
-                const now = new Date();
-
-                const timeRemaining = expiryDate - now;
-
-                if (timeRemaining > 0) {
-                    // Alert 1 menit sebelum sesi habis
-                    setTimeout(() => {
-                        alert("Sesi Anda akan berakhir dalam 1 menit. Silakan simpan pekerjaan Anda.");
-                    }, timeRemaining - 60000);
-
-                    // Redirect setelah sesi habis
-                    setTimeout(() => {
-                        alert("Sesi Anda telah berakhir. Silakan login kembali.");
-                        window.location.href = "/login";
-                    }, timeRemaining);
-                }
-            }
-        });
-    </script>
 </body>
 
 </html>
