@@ -13,7 +13,6 @@ register = Blueprint(
 )
 
 @register.route('/register', methods=['GET', 'POST'])
-@register.route('/register', methods=['GET', 'POST'])
 def show():
     if request.method == 'POST':
         username = request.form.get('username')

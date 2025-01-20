@@ -1,4 +1,4 @@
-from flask import Blueprint, url_for, redirect
+from flask import Blueprint, redirect, url_for, session, make_response, flash
 from flask_login import LoginManager, login_required, logout_user
 
 logout = Blueprint('logout', __name__, template_folder='../frontend')
@@ -9,4 +9,16 @@ login_manager.init_app(logout)
 @login_required
 def show():
     logout_user()
-    return redirect(url_for('login.show') + '?success=logged-out')
+    # Hapus data dari session
+    session.pop('user_id', None)
+    session.pop('username', None)
+    # Hapus cookie
+    response = make_response(redirect(url_for('login.show') + '?success=logged-out'))
+    response.delete_cookie('username')
+    return response
+
+@logout.route('/logout')
+def perform_logout():
+    logout_user()
+    flash('Anda telah logout.', 'success')
+    return redirect(url_for('login.show'))

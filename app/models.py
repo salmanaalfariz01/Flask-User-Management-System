@@ -1,8 +1,9 @@
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-from . import db
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 # Users table
 class Users(db.Model, UserMixin):
@@ -10,9 +11,9 @@ class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
-    password_hash = db.Column(db.String(255), nullable=False)
+    password_hash = db.Column(db.Text, nullable=False)
     phone = db.Column(db.Integer, unique=True, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime, nullable=False)
     status = db.Column(db.Enum('active', 'inactive', name='user_status_enum'), default='active', nullable=False)
     division_id = db.Column(db.Integer, db.ForeignKey('divisions.id'), nullable=True)  # Optional Division FK
     position_id = db.Column(db.Integer, db.ForeignKey('positions.id'), nullable=True)  # Optional Position FK
