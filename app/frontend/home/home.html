@@ -1,40 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('home.static', filename='home.css') }}">
 </head>
+
 <body>
-    {% if session.get('user_id') %}
-        <h1>Welcome, {{ session['user_id'] }}!</h1>
-    {% else %}
-        <h1>Welcome, Guest!</h1>
-    {% endif %}
-    <a href="{{ url_for('logout.show') }}">Logout</a>
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="navbar-container">
+        <!-- Left Side: User Dropdown and User Management -->
+        <div class="left-container">
+            <div class="dropdown">
+                <button class="dropdown-toggle">
+                    <i class="fas fa-user-tie"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><strong>Username:</strong> {{ session.get('username') }}</li>
+                    <li><strong>Division:</strong> {{ session.get('division') }}</li>
+                    <li><strong>Position:</strong> {{ session.get('position') }}</li>
+                </ul>
+            </div>
 
-    <!-- Script untuk memantau sesi kedaluwarsa -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Ambil waktu kedaluwarsa dari session
-            const sessionExpiry = "{{ session.get('session_expiry') }}";
-            
-            if (sessionExpiry) {
-                const expiryDate = new Date(sessionExpiry);
-                const now = new Date();
+            {% if session.get('username') %}
+                <a href="/user-management" class="user-management">User Management</a>
+            {% endif %}
+        </div>
 
-                const timeRemaining = expiryDate - now;
+        <!-- Center: Search -->
+        <form class="search-form" method="GET" action="/search">
+            <input type="text" name="query" placeholder="Search..." class="search-input">
+            <button type="submit" class="search-button">Search</button>
+        </form>
 
-                if (timeRemaining > 0) {
+        <!-- Right Side: Logout -->
+        <a href="{{ url_for('logout.show') }}" class="logout-link">Logout</a>
+    </div>
+</nav>
 
-                    // Logout dan redirect setelah sesi habis
-                    setTimeout(() => {
-                        alert("Sesi Anda telah habis. Anda akan logout sekarang.");
-                        window.location.href = "{{ url_for('logout.show') }}";  // Logout dan redirect
-                    }, timeRemaining);
-                }
-            }
-        });
-    </script>
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Home Page</h1>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('home.static', filename='home.js') }}"></script>
 </body>
+
 </html>

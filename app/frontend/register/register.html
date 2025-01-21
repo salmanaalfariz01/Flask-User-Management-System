@@ -8,12 +8,24 @@
 </head>
 <body>
     <h1>Register</h1>
-    <form action="{{ url_for('register.show') }}" method="POST">
+    <form id="registerForm" action="{{ url_for('register.show') }}" method="POST">
         <input type="text" name="username" placeholder="Username" required>
         <input type="email" name="email" placeholder="Email" required>
         <input type="number" name="phone" placeholder="Phone" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="password" name="confirm-password" placeholder="Confirm Password" required>
+
+        <!-- Password Field with Checkbox Inside Input Box -->
+        <div class="password-container">
+            <input id="password" type="password" name="password" placeholder="Password" required>
+            <label class="show-password"><input type="checkbox" id="togglePassword" class="toggle-password"></label>
+        </div>
+
+        <!-- Confirm Password Field with Checkbox Inside Input Box -->
+        <div class="password-container">
+            <input id="confirmPassword" type="password" name="confirm-password" placeholder="Confirm Password" required>
+            <label class="show-password"><input type="checkbox" id="toggleConfirmPassword" class="toggle-password"></label>
+        </div>
+
+        <p id="errorMsg" class="error"></p>
 
         <!-- Dropdown Divisions -->
         <label for="division">Division:</label>
@@ -39,34 +51,8 @@
     <p class="success">{{ request.args.get('success') }}</p>
     {% endif %}
 
-    <!-- Link for users who already have an account -->
     <p>Already have an account? <a href="{{ url_for('login.show') }}">Login here</a></p>
 
+    <script src="{{ url_for('register.static', filename='register.js') }}"></script>
 </body>
-<script>
-    // JavaScript to load positions based on division
-    document.getElementById('division').addEventListener('change', function () {
-        const divisionId = this.value;
-        const positionDropdown = document.getElementById('position');
-
-        // Clear previous position options
-        positionDropdown.innerHTML = '<option value="">Select Position</option>';
-
-        if (divisionId) {
-            // Send request to server to get positions
-            fetch(`/positions/${divisionId}`)
-                .then(response => response.json())
-                .then(data => {
-                    // Add position options received from the server
-                    data.positions.forEach(position => {
-                        const option = document.createElement('option');
-                        option.value = position.id;
-                        option.textContent = position.name;
-                        positionDropdown.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Error fetching positions:', error));
-        }
-    });
-</script>
 </html>

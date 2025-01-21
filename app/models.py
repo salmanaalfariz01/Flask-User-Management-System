@@ -18,6 +18,7 @@ class Users(db.Model, UserMixin):
     division_id = db.Column(db.Integer, db.ForeignKey('divisions.id'), nullable=True)  # Optional Division FK
     position_id = db.Column(db.Integer, db.ForeignKey('positions.id'), nullable=True)  # Optional Position FK
 
+
     def set_password(self, password):
         """Hashes the password and stores it."""
         self.password_hash = generate_password_hash(password)

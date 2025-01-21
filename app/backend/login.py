@@ -30,7 +30,7 @@ def show():
             session.permanent = True
 
             # Set session expiry time
-            session_expiry = datetime.now() + timedelta(minutes=180 )
+            session_expiry = datetime.now() + timedelta(minutes=180)
             session['session_expiry'] = session_expiry.strftime('%Y-%m-%d %H:%M:%S')
 
             # Log session start and expiry times for debugging

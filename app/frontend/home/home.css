@@ -1,0 +1,185 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Left Side: User Dropdown and User Management */
+.left-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* User Management Link */
+.user-management {
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.user-management:hover {
+    text-decoration: underline;
+}
+
+/* Dropdown Styling */
+.dropdown {
+    position: relative;
+}
+
+/* Dropdown Button Styling */
+.dropdown-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 28px; /* Membuat ukuran tombol lebih besar */
+    color: #007bff;
+    padding: 12px 20px; /* Memberikan ruang lebih besar di dalam tombol */
+    border-radius: 4px; /* Menambahkan sudut melengkung pada tombol */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease; /* Efek transisi saat hover */
+}
+
+.dropdown-toggle:hover {
+    background-color: #f0f0f0; /* Memberikan efek latar belakang saat hover */
+}
+
+.dropdown-toggle:focus,
+.dropdown-toggle:active {
+    color: #007bff;
+    outline: none; /* Menghilangkan outline saat fokus */
+}
+
+/* Dropdown Menu Styling */
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    margin: 5px 0 0;
+    padding: 10px;
+    display: none;
+    width: 250px; /* Menambah lebar menu */
+    z-index: 1000;
+}
+
+/* Item di dalam menu */
+.dropdown-menu li {
+    padding: 8px 0;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Menghapus border pada item terakhir */
+.dropdown-menu li:last-child {
+    border-bottom: none;
+}
+
+/* Styling untuk logout link */
+.dropdown-menu .logout-link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    background-color: #007bff; /* Latar belakang biru */
+    padding: 10px;
+    text-align: center;
+    border-radius: 4px;
+}
+
+/* Tombol Logout saat dihover */
+.dropdown-menu .logout-link:hover {
+    background-color: #0056b3; /* Latar belakang lebih gelap saat hover */
+    text-decoration: none;
+}
+
+/* Menampilkan dropdown saat hover */
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Center: Search Form Styling */
+.search-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 50%; /* Membuat lebar form pencarian lebih kecil */
+}
+
+/* Search Input Styling */
+.search-input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+}
+
+/* Search Button Styling */
+.search-button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+/* Right Side: Logout Button Styling */
+.logout-link {
+    position: right;
+    display: inline-block;
+    padding: 7px 20px;
+    background-color: #007bff; /* Latar belakang biru */
+    color: white; /* Teks berwarna putih */
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px; /* Sudut melengkung pada tombol */
+    text-align: center;
+    width: 60px;
+}
+
+/* Tombol Logout saat dihover */
+.logout-link:hover {
+    background-color: #0056b3; /* Latar belakang lebih gelap saat hover */
+    text-decoration: none;
+}
+
+/* Main Content */
+.main-content {
+    text-align: center;
+    margin-top: 50px;
+}
